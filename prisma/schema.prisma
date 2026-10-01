@@ -5,7 +5,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -14,7 +14,6 @@ datasource db {
 
 model Trip {
   id Int @id @default(autoincrement())
-  email String @unique
   name String
   destination String
   startDate DateTime @db.Date()
