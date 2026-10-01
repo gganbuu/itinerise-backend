@@ -11,3 +11,31 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Trip {
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String
+  destination String
+  startDate DateTime @db.Date()
+  endDate DateTime @db.Date()
+  activities Activity[]
+}
+
+model Activity {
+  id Int @id @default(autoincrement())
+  tripId Int
+  name String
+  category String
+  location String
+  durationMinutes Int
+  startTime DateTime?
+  cost Decimal? @db.Decimal(10,2) // 10 digits total, 2 decimal places
+  description String?
+  
+
+
+  // virtual field + added index for tripId for faster queries
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade) //cascade makes deleting a trip also delete all of its activities
+  @@index([tripId])
+}
