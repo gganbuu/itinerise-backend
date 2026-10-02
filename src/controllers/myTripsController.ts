@@ -20,11 +20,3 @@ export async function newTripPost(req: Request, res: Response) {
 
     res.status(201).json(newTrip);
 }
-
-export async function tripGet(req: Request, res: Response) {
-    const id = Number(req.params.id)
-    const trip = await prisma.trip.findFirst({
-        where: {id: id}
-    })
-    res.status(201).json(trip)
-}
