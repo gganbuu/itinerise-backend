@@ -33,9 +33,28 @@ export async function activitiesGet(req: Request, res: Response) {
 }
 
 export async function tripGet(req: Request, res: Response) {
+    // get id from params
     const id = Number(req.params.id)
+    
+    // check if number is integer
+    if (!Number.isInteger(id)) {
+        res.status(400).json({ error: "Invalid trip id"})
+        return
+    }
+
     const trip = await prisma.trip.findUnique({
-        where: {id: id}
-    })
+        where: { id },
+        include: {
+            activities: {
+                orderBy: {startTime: { sort: "asc", nulls: "last"} },
+            },
+        },
+    });
+
+    if (!trip) {
+        res.status(404).json({ error: "Trip not found"});
+        return
+    }
+    
     res.status(200).json(trip)
 }
