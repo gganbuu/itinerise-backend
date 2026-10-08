@@ -8,4 +8,6 @@ tripRouter.get("/:id", tripController.tripGet)
 
 tripRouter.post('/:id/newactivity', tripController.newActivityPost)
 
-tripRouter.get('/:id/allactivities', tripController.activitiesGet)  
+tripRouter.get('/:id/allactivities', tripController.activitiesGet)
+
+tripRouter.patch('/:id/settime/:activityId', tripController.activityStartTimePatch)

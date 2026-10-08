@@ -1,7 +1,7 @@
 import express, { type NextFunction, type Request, type Response } from "express";
 import session from "express-session";
 import { myTripsRouter } from "./routes/myTripsRouter.ts";
-import { tripRouter } from "./routes/tripRouter.ts";
+import { tripRouter  } from "./routes/tripRouter.ts";
 
 export const app = express()
 const cookieSecret = process.env.COOKIE_SECRET;

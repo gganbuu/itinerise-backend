@@ -58,3 +58,33 @@ export async function tripGet(req: Request, res: Response) {
     
     res.status(200).json(trip)
 }
+
+export async function activityStartTimePatch(req: Request, res: Response) {
+    // get ids from request parameters
+    const tripId = Number(req.params.id)
+    const activityId = Number(req.params.activityId)
+
+
+    // early return if the tripId or activity is not an integer 
+    if (!Number.isInteger(tripId) || !Number.isInteger(activityId)) {
+        res.status(400).json({ error: "Invalid id"})
+        return
+    }
+
+    // should be and ISO string or Null (null = in the activity bank / not assigned time)
+    const { startTime } = req.body
+    
+    // query to db 
+    const result = await prisma.activity.updateMany({
+        where: { id: activityId, tripId},
+        data: { startTime: startTime ? new Date(startTime) : null},
+    })
+
+    // if there is no return then set res status to 404 and error to be activity not found
+    if (result.count === 0) {
+        res.status(404).json({ error: "Activity not found"})
+        return
+    }
+
+    res.status(204).end();
+}
