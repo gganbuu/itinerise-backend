@@ -23,7 +23,8 @@
     "express": "^5.2.1",
     "express-session": "^1.19.0",
     "express-validator": "^7.3.2",
-    "pg": "^8.23.0"
+    "pg": "^8.23.0",
+    "temporal-polyfill": "^1.0.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

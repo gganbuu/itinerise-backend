@@ -88,3 +88,18 @@ export async function activityStartTimePatch(req: Request, res: Response) {
 
     res.status(204).end();
 }
+
+export async function deleteActivitiesPatch(req: Request, res: Response) {
+    const tripId = Number(req.params.id)
+
+    if (!Number.isInteger(tripId)) {
+        res.status(400).json({ error: "Invalid id"})
+        return
+    }
+
+    const result = await prisma.activity.deleteMany({
+        where: { tripId: tripId}
+    })
+
+    res.status(204).end()
+}

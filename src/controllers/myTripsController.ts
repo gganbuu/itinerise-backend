@@ -20,3 +20,13 @@ export async function newTripPost(req: Request, res: Response) {
 
     res.status(201).json(newTrip);
 }
+
+export async function tripDelete(req: Request, res: Response) {
+    const tripId = Number(req.params.id)
+
+    const result = await prisma.trip.deleteMany({
+        where: {id: tripId}
+    })
+
+    res.status(204).end()
+}

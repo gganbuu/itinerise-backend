@@ -7,3 +7,4 @@ myTripsRouter.get("/all", myTripsController.allTripsGet)
 
 myTripsRouter.post("/newtrip", myTripsController.newTripPost)
 
+myTripsRouter.delete("/delete/:id", myTripsController.tripDelete)
