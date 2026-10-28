@@ -3,8 +3,17 @@ import { prisma } from "../db/db.ts"
 
 export async function newActivityPost(req: Request, res: Response) {
     const { name, category, location, duration, startTime, cost, description } = req.body;
+    
+    if (!Number.isInteger(Number(duration)) || !Number.isInteger(Number(cost)) ) {
+        res.status(400).json({error: "TypeError: duration or cost is not a number "})
+    }
+
     const durationMinutes = Number(duration) * 60 
+
     const tripId = Number(req.params.id);
+    if (!Number.isInteger(tripId)) {
+        res.status(400).json({error: "TypeError: TripID is not an number"})
+    }
 
     const newActivity = await prisma.activity.create({
         data: {
