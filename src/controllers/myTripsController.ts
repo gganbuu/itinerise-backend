@@ -34,8 +34,8 @@ export async function newTripPost(req: Request, res: Response) {
         data: {
             name,
             destination,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
+            startDate: new Date(start.toString()),
+            endDate: new Date(end.toString()),
         }
     });
 
