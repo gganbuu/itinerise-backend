@@ -67,7 +67,7 @@ export async function activityStartTimePatch(req: Request, res: Response) {
 
     // early return if the tripId or activity is not an integer 
     if (!Number.isInteger(tripId) || !Number.isInteger(activityId)) {
-        res.status(400).json({ error: "Invalid id: ID is not an integer"})
+        res.status(400).json({ error: "Invalid ID: ID is not an integer"})
         return
     }
 
