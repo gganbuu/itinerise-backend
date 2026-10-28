@@ -5,7 +5,8 @@ import { Temporal } from "temporal-polyfill";
 export function parsePlainDate(value: string): Temporal.PlainDate | null {
     try {
         return Temporal.PlainDate.from(value);
-    } catch {
-        return null;
+    } catch (error) {
+        if (error instanceof RangeError) return null;
+        throw error;
     }
 }
