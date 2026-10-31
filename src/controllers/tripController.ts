@@ -1,35 +1,40 @@
 import type { Request, Response } from "express";
+import { Prisma } from "../generated/prisma/client.ts";
 import { prisma } from "../db/db.ts" 
 
 export async function newActivityPost(req: Request, res: Response) {
-    const { name, category, location, duration, startTime, cost, description } = req.body;
-    
-    if (!Number.isInteger(Number(duration)) || !Number.isInteger(Number(cost)) ) {
-        res.status(400).json({error: "TypeError: duration or cost is not a number "})
-    }
-
-    const durationMinutes = Number(duration) * 60 
-
     const tripId = Number(req.params.id);
     if (!Number.isInteger(tripId)) {
         res.status(400).json({error: "TypeError: TripID is not an number"})
+        return
     }
 
-    const newActivity = await prisma.activity.create({
-        data: {
-            tripId,
-            name,
-            category,
-            location,
-            durationMinutes,
-            startTime,
-            cost,
-            description
-        }
-    });
+    const { name, category, location, duration, cost, description } = req.body;
+    const durationMinutes = Math.round(Number(duration) * 60)
 
-    res.status(201).json(newActivity)
+    try {
+        const newActivity = await prisma.activity.create({
+            data: {
+                tripId,
+                name,
+                category,
+                location,
+                durationMinutes,
+                cost,
+                description
+            }
+        });
+
+        res.status(201).json(newActivity)
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {
+            res.status(404).json({ error: "Trip not found" })
+            return
+        }
+        throw error
+    }
 }
+
 
 export async function activitiesGet(req: Request, res: Response) {
     const tripId = Number(req.params.id)

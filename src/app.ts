@@ -30,6 +30,7 @@ app.use((req: Request, res: Response) => {
 })
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+  if (res.headersSent) return next(err)
   console.error(err);
   res.status(500).json({ error: "Internal server error" });
 });
